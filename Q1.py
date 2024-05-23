@@ -1,27 +1,15 @@
-def CountingSortIntegers(arr):
-    # Determine the range of the array values
-    min_val = min(arr)
-    max_val = max(arr)
-    range_of_elements = max_val - min_val + 1
-
-    # Create count array with size equal to the range of elements
-    count = [0] * range_of_elements
-    output = [0] * len(arr)
-
-    # Store count of each integer
-    for num in arr:
-        count[num - min_val] += 1
-
-    # Modify the count array such that each index will store the sum till previous step
-    for i in range(1, range_of_elements):
-        count[i] += count[i - 1]
-
-    # Build the output array
-    for num in reversed(arr):  # reverse to maintain stability, if needed
-        output[count[num - min_val] - 1] = num
-        count[num - min_val] -= 1
-
-    return output
+def CountingSortIntegers(a):
+    ret = [0] * len(a)
+    count = {i: 0 for i in a}
+    for i in a:
+        count[i] += 1
+    for i in a:
+        pos = 0
+        for j in a:
+            pos += j < i
+        for j in range(count[i]):
+            ret[pos + j] = i
+    return ret
 
 # Example to test the adapted algorithm
 arr = [40, 15, 9, 92, 14, 2, -21, -2, 39, 44]
